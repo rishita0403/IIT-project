@@ -23,6 +23,11 @@ import RiskHeartRate from './screens/RiskHeartRate';
 import RiskRBS from './screens/RiskRBS';
 import RiskRR from './screens/RiskRR';
 import RiskSystolicBP from './screens/RiskSystolicBP';
+import PredictionHistoryScreen from './screens/PredictionHistoryScreen';
+import MaternalGuideScreen from './screens/MaternalGuideScreen';
+import DosDontsScreen from './screens/DosDontsScreen';
+import YogaExerciseScreen from './screens/YogaExerciseScreen';
+import DietPlanScreen from './screens/DietPlanScreen';
 import { AuthProvider } from './context/authContext';
 import { HealthProvider } from './context/HealthContext';
 
@@ -56,6 +61,11 @@ export default function App() {
           <Stack.Screen name="RiskRR" component={RiskRR} />
           <Stack.Screen name="RiskSystolicBP" component={RiskSystolicBP} />
           <Stack.Screen name="Prediction" component={PredictionScreen} />
+          <Stack.Screen name="History" component={PredictionHistoryScreen} />
+          <Stack.Screen name="MaternalGuide" component={MaternalGuideScreen} />
+          <Stack.Screen name="DietPlan" component={DietPlanScreen} />
+          <Stack.Screen name="YogaExercise" component={YogaExerciseScreen}/>
+          <Stack.Screen name="DosDonts" component={DosDontsScreen}/> 
         </Stack.Navigator>
       </NavigationContainer>
       </HealthProvider>

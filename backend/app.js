@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const riskCheckRoutes = require('./routes/riskCheckRoutes');
+const foodsToAvoidRoutes = require('./routes/foodToAvoidRoutes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/auth', authRoutes);
 app.use('/ques',questionRoutes);
 app.use('/risk', riskCheckRoutes);
+app.use('/food', foodsToAvoidRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

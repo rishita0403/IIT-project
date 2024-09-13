@@ -12,6 +12,7 @@ exports.signup = async (req, res) => {
     await user.save();
     res.status(201).send('User registered');
   } catch (error) {
+    console.error('Error during user registration:', error);  // Log actual error for debugging
     res.status(400).send('Error registering user');
   }
 };

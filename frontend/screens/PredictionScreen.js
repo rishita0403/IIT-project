@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 import { AuthContext } from '../context/authContext';
 import { HealthContext } from '../context/HealthContext';
+import BarIndicator from '../components/BarIndicator';
 
 export default function PredictionScreen({ navigation }) {
   const [state] = useContext(AuthContext);
@@ -10,7 +11,6 @@ export default function PredictionScreen({ navigation }) {
   const [risk, setRisk] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Function to calculate age based on dob
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const today = new Date();
@@ -26,10 +26,9 @@ export default function PredictionScreen({ navigation }) {
   useEffect(() => {
     const getPrediction = async () => {
       try {
-        // Calculate age from DOB
         const age = calculateAge(state.user.dob);
 
-        const response = await axios.post('https://471c-103-240-237-181.ngrok-free.app/predict', {
+        const response = await axios.post('https://8dca-103-240-194-94.ngrok-free.app/predict', {
           RBS: healthData.RBS,
           abortion: healthData.abortion,
           HB: healthData.HB,
@@ -50,10 +49,8 @@ export default function PredictionScreen({ navigation }) {
           },
         });
 
-        // Update the risk state with the prediction result
         setRisk(response.data.risk);
 
-        // Store the risk parameters and prediction result in the database
         await axios.post('/risk/store-risk-check', {
           userId: state.user._id,
           RBS: healthData.RBS,
@@ -71,6 +68,18 @@ export default function PredictionScreen({ navigation }) {
           },
         });
 
+        // await axios.put('/ques/update-details', {
+        //   numConceived: healthData.numConceived,
+        //   liveBirth: healthData.liveBirth,
+        //   abortion: healthData.abortion,
+        //   childDeath: healthData.childDeath,
+        //   deliveries: healthData.deliveries,
+        // }, {
+        //   headers: {
+        //     Authorization: `Bearer ${state.token}`
+        //   }
+        // });
+
       } catch (error) {
         console.error('Error fetching prediction:', error);
         alert('Error fetching prediction');
@@ -83,36 +92,76 @@ export default function PredictionScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {loading ? (
         <Text>Loading...</Text>
       ) : risk !== null ? (
-        <Text style={styles.resultText}>
-          Risk Level: {risk === 0 ? 'No Risk' : 'High Risk'}
-        </Text>
+        <>
+          <View style={styles.resultContainer}>
+            <Text style={styles.resultText}>
+              You are {risk === 0 ? 'good to go!!' : 'at high risk'}
+            </Text>
+            <Text style={styles.riskText}>{risk === 0 ? 'No Risk' : 'High Risk'}</Text>
+          </View>
+
+          <Text style={styles.analysisHeader}>Report Analysis</Text>
+
+          <BarIndicator label="Systolic Blood Pressure" currentValue={healthData.SystolicBP} minAcceptable={90} maxAcceptable={120} minValue={60} maxValue={150} />
+          <BarIndicator label="Diastolic Blood Pressure" currentValue={healthData.DiastolicBP} minAcceptable={60} maxAcceptable={80} minValue={40} maxValue={100} />
+          <BarIndicator label="Glucose" currentValue={healthData.RBS} minAcceptable={70} maxAcceptable={140} minValue={40} maxValue={170} />
+          <BarIndicator label="Respiration Rate" currentValue={healthData.RR} minAcceptable={12} maxAcceptable={20} minValue={0} maxValue={32} />
+          <BarIndicator label="Body Temperature" currentValue={healthData.BodyTemp} minAcceptable={97} maxAcceptable={99} minValue={95} maxValue={104} />
+          <BarIndicator label="Pulse Rate" currentValue={healthData.HeartRate} minAcceptable={60} maxAcceptable={100} minValue={40} maxValue={120} />
+          <BarIndicator label="Hemoglobin Level" currentValue={healthData.HB} minAcceptable={12} maxAcceptable={16} minValue={5} maxValue={23} />
+          <BarIndicator label="HBA1C Level" currentValue={healthData.HBA1C} minAcceptable={4} maxAcceptable={5.6} minValue={2} maxValue={10} />
+
+          <View style={styles.buttonContainer}>
+            <Button title="Save" color="#4CAF50" onPress={() => navigation.navigate('HomeScreen')} />
+          </View>
+        </>
       ) : (
         <Text style={styles.errorText}>Error fetching prediction result</Text>
       )}
-      <Button title="Back to Home" onPress={() => navigation.navigate('HomeScreen')} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
+    backgroundColor: '#FFF',
+  },
+  resultContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+    padding: 20,
+    backgroundColor: '#FFF9C4',
+    borderRadius: 10,
   },
   resultText: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+  },
+  riskText: {
+    fontSize: 18,
+    color: '#4CAF50',
+    marginTop: 10,
+  },
+  analysisHeader: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   errorText: {
     fontSize: 18,
     color: 'red',
-    marginBottom: 20,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    marginBottom: 40,
+    alignItems: 'center',
   },
 });
