@@ -45,7 +45,7 @@ import { HealthContext } from '../context/HealthContext';
 import { AuthContext } from '../context/authContext';
 import axios from 'axios';
 
-export default function riskAbortion({ navigation }) {
+export default function RiskAbortion({ navigation }) {
   const [healthData, setHealthData] = useContext(HealthContext);
   const [state] = useContext(AuthContext);
   const [abortion, setAbortion] = useState('');

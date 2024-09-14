@@ -10,11 +10,11 @@ import Question4Screen from './screens/Question4Screen';
 import Question5Screen from './screens/Question5Screen';
 import HomeScreen from './screens/HomeScreen';
 import PredictionScreen from './screens/PredictionScreen';
-import riskAbortion from './screens/riskAbortion';
-import riskChildDeath from './screens/riskChildDeath';
-import riskDeliveries from './screens/riskDeliveries';
-import riskLiveBirth from './screens/riskLiveBirth';
-import riskNumConceived from './screens/riskNumConceived';
+import RiskAbortion from './screens/RiskAbortion';
+import RiskChildDeath from './screens/RiskChildDeath';
+import RiskDeliveries from './screens/RiskDeliveries';
+import RiskLiveBirth from './screens/RiskLiveBirth';
+import RiskNumConceived from './screens/RiskNumConceived';
 import RiskBodyTemp from './screens/RiskBodyTemp';
 import RiskDiastolicBP from './screens/RiskDiastolicBP';
 import RiskHB from './screens/RiskHB';
@@ -47,11 +47,11 @@ export default function App() {
           <Stack.Screen name="Question4" component={Question4Screen} />
           <Stack.Screen name="Question5" component={Question5Screen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="riskAbortion" component={riskAbortion} />
-          <Stack.Screen name="riskChildDeath" component={riskChildDeath} />
-          <Stack.Screen name="riskDeliveries" component={riskDeliveries} />
-          <Stack.Screen name="riskLiveBirth" component={riskLiveBirth} />
-          <Stack.Screen name="riskNumConceived" component={riskNumConceived} />
+          <Stack.Screen name="riskAbortion" component={RiskAbortion} />
+          <Stack.Screen name="riskChildDeath" component={RiskChildDeath} />
+          <Stack.Screen name="riskDeliveries" component={RiskDeliveries} />
+          <Stack.Screen name="riskLiveBirth" component={RiskLiveBirth} />
+          <Stack.Screen name="riskNumConceived" component={RiskNumConceived} />
           <Stack.Screen name="RiskBodyTemp" component={RiskBodyTemp} />
           <Stack.Screen name="RiskDiastolicBP" component={RiskDiastolicBP} />
           <Stack.Screen name="RiskHB" component={RiskHB} />

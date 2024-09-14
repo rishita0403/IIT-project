@@ -27,8 +27,9 @@ export default function PredictionScreen({ navigation }) {
     const getPrediction = async () => {
       try {
         const age = calculateAge(state.user.dob);
+        console.log('Token:', state.token);
 
-        const response = await axios.post('https://8dca-103-240-194-94.ngrok-free.app/predict', {
+        const response = await axios.post('https://avipsa.pythonanywhere.com/predict', {
           RBS: healthData.RBS,
           abortion: healthData.abortion,
           HB: healthData.HB,
@@ -68,17 +69,17 @@ export default function PredictionScreen({ navigation }) {
           },
         });
 
-        // await axios.put('/ques/update-details', {
-        //   numConceived: healthData.numConceived,
-        //   liveBirth: healthData.liveBirth,
-        //   abortion: healthData.abortion,
-        //   childDeath: healthData.childDeath,
-        //   deliveries: healthData.deliveries,
-        // }, {
-        //   headers: {
-        //     Authorization: `Bearer ${state.token}`
-        //   }
-        // });
+        await axios.put('/ques/update-details', {
+          numConceived: healthData.numConceived,
+          liveBirth: healthData.liveBirth,
+          abortion: healthData.abortion,
+          childDeath: healthData.childDeath,
+          deliveries: healthData.deliveries,
+        }, {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        });
 
       } catch (error) {
         console.error('Error fetching prediction:', error);

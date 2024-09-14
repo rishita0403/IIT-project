@@ -40,14 +40,18 @@
 //   },
 // });
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { HealthContext } from '../context/HealthContext';
 
 export default function RiskRR({ navigation }) {
   const [healthData, setHealthData] = useContext(HealthContext);
-  const [RR, setRR] = useState(healthData.RR || '');
+  const [RR, setRR] = useState('');
 
   const handleNext = async () => {
+    if (RR.trim() === '') {
+      Alert.alert('Validation Error', 'Please enter your body temperature before proceeding.');
+      return;
+    }
     setHealthData({ ...healthData, RR });
     navigation.navigate('RiskSystolicBP');
   };

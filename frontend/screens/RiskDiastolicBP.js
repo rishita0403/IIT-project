@@ -40,14 +40,18 @@
 //   },
 // });
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { HealthContext } from '../context/HealthContext';
 
 export default function RiskDiastolicBP({ navigation }) {
   const [healthData, setHealthData] = useContext(HealthContext);
-  const [DiastolicBP, setDiastolicBP] = useState(healthData.DiastolicBP || '');
+  const [DiastolicBP, setDiastolicBP] = useState('');
 
   const handleNext = async () => {
+    if (DiastolicBP.trim() === '') {
+      Alert.alert('Validation Error', 'Please enter your body temperature before proceeding.');
+      return;
+    }
     setHealthData({ ...healthData, DiastolicBP });
     navigation.navigate('RiskHeartRate');
   };

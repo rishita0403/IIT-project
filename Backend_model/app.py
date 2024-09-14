@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Load the model
-model = joblib.load('C:/Users/Avipsa/Desktop/Avipsa/IIT-project-new/IIT-project/Backend_model/asset/random_forest_model.pkl')
+model = joblib.load('random_forest_model.pkl')
 
 @app.route('/predict', methods=['POST'])
 def predict():

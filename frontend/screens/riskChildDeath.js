@@ -142,7 +142,7 @@ import axios from 'axios';
 import { HealthContext } from '../context/HealthContext';
 import { AuthContext } from '../context/authContext';
 
-export default function Question5Screen({ navigation }) {
+export default function RiskChildDeath({ navigation }) {
   const [healthData, setHealthData] = useContext(HealthContext);
   const [state] = useContext(AuthContext);
   const [childDeath, setChildDeath] = useState('');
@@ -168,25 +168,8 @@ export default function Question5Screen({ navigation }) {
 
 
   const handleSubmit = async () => {
-    try {
-      // Store the updated values in the database
-      await axios.put('/ques/update-details', {
-        numConceived: healthData.numConceived,
-        liveBirth: healthData.liveBirth,
-        abortion: healthData.abortion,
-        childDeath,
-        deliveries: healthData.deliveries,
-      }, {
-        headers: {
-          Authorization: `Bearer ${state.token}`
-        }
-      });
-      setHealthData({ ...healthData, childDeath });
-      navigation.navigate('RiskRBS'); // Navigate to the RiskRBS screen after submission
-    } catch (error) {
-      console.error('Error submitting data:', error.response ? error.response.data : error.message);
-      alert('Error submitting data');
-    }
+    setHealthData({ ...healthData, childDeath });
+    navigation.navigate('RiskRBS');
   };
 
   return (

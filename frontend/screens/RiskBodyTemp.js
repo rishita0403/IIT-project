@@ -40,14 +40,18 @@
 //   },
 // });
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import { HealthContext } from '../context/HealthContext';
 
 export default function RiskBodyTemp({ navigation }) {
   const [healthData, setHealthData] = useContext(HealthContext);
-  const [BodyTemp, setBodyTemp] = useState(healthData.BodyTemp || '');
+  const [BodyTemp, setBodyTemp] = useState('');
 
   const handleSubmit = async () => {
+    if (BodyTemp.trim() === '') {
+      Alert.alert('Validation Error', 'Please enter your body temperature before proceeding.');
+      return;
+    }
     setHealthData({ ...healthData, BodyTemp });
     navigation.navigate('Prediction');
   };
