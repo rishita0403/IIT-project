@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
 
   // Default axios setting
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  axios.defaults.baseURL = "http://192.168.18.87:3000"; // Update with your server URL
+  axios.defaults.baseURL = "http://192.168.0.116:3000"; // Update with your server URL
 
   // Initial local storage data
   useEffect(() => {

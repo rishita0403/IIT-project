@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import yogaData from '../data/yogaformatted_with_images_.json'; // Adjust the path as needed
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const { width } = Dimensions.get('window');
 
 export default function YogaExerciseScreen({ navigation }) {
   const [selectedTrimester, setSelectedTrimester] = useState('First Trimester (Weeks 1-12)');
@@ -74,14 +77,29 @@ export default function YogaExerciseScreen({ navigation }) {
     <View style={styles.container}>
       {/* Trimester Tabs */}
       <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => setSelectedTrimester('First Trimester (Weeks 1-12)')} style={selectedTrimester === 'First Trimester (Weeks 1-12)' ? styles.activeTab : styles.inactiveTab}>
-          <Text style={selectedTrimester === 'First Trimester (Weeks 1-12)' ? styles.activeTabText : styles.inactiveTabText}>1st Trimester</Text>
+        <TouchableOpacity 
+          onPress={() => setSelectedTrimester('First Trimester (Weeks 1-12)')} 
+          style={selectedTrimester === 'First Trimester (Weeks 1-12)' ? styles.activeTab : styles.inactiveTab}
+        >
+          <Text style={selectedTrimester === 'First Trimester (Weeks 1-12)' ? styles.activeTabText : styles.inactiveTabText}>
+            1st Trimester
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedTrimester('Second Trimester (Weeks 13-26)')} style={selectedTrimester === 'Second Trimester (Weeks 13-26)' ? styles.activeTab : styles.inactiveTab}>
-          <Text style={selectedTrimester === 'Second Trimester (Weeks 13-26)' ? styles.activeTabText : styles.inactiveTabText}>2nd Trimester</Text>
+        <TouchableOpacity 
+          onPress={() => setSelectedTrimester('Second Trimester (Weeks 13-26)')} 
+          style={selectedTrimester === 'Second Trimester (Weeks 13-26)' ? styles.activeTab : styles.inactiveTab}
+        >
+          <Text style={selectedTrimester === 'Second Trimester (Weeks 13-26)' ? styles.activeTabText : styles.inactiveTabText}>
+            2nd Trimester
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedTrimester('Third Trimester (Weeks 27-40)')} style={selectedTrimester === 'Third Trimester (Weeks 27-40)' ? styles.activeTab : styles.inactiveTab}>
-          <Text style={selectedTrimester === 'Third Trimester (Weeks 27-40)' ? styles.activeTabText : styles.inactiveTabText}>3rd Trimester</Text>
+        <TouchableOpacity 
+          onPress={() => setSelectedTrimester('Third Trimester (Weeks 27-40)')} 
+          style={selectedTrimester === 'Third Trimester (Weeks 27-40)' ? styles.activeTab : styles.inactiveTab}
+        >
+          <Text style={selectedTrimester === 'Third Trimester (Weeks 27-40)' ? styles.activeTabText : styles.inactiveTabText}>
+            3rd Trimester
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -104,6 +122,21 @@ export default function YogaExerciseScreen({ navigation }) {
       <ScrollView style={styles.cardContainer}>
         {content}
       </ScrollView>
+
+      {/* Footer with navigation icons */}
+      <View style={styles.footer}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('riskNumConceived')}>
+        <Ionicons name="heart-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MaternalGuide')}>
+        <Ionicons name="book-outline" size={25} color="black" />
+        </TouchableOpacity>
+        
+        
+      </View>
     </View>
   );
 }
@@ -153,6 +186,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    marginBottom:50
   },
   sectionHeader: {
     fontSize: 20,
@@ -182,6 +216,21 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 10,
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 8,
+    width: width,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -193,7 +242,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'black',
-    paddingRight: 30,
+    paddingRight: 30, // To ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 16,
@@ -203,6 +252,6 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'black',
-    paddingRight: 30,
+    paddingRight: 30, // To ensure the text is never behind the icon
   },
 });

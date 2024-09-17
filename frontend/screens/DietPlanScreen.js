@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
 import dietPlanData from '../data/formatted_pregnancy_guide.json'; // Adjust the path as needed
+
+const { width } = Dimensions.get('window'); // Get screen width
 
 export default function DietPlanScreen({ navigation }) {
   const [selectedTrimester, setSelectedTrimester] = useState('first_trimester');
@@ -52,10 +55,12 @@ export default function DietPlanScreen({ navigation }) {
             <View key={index} style={styles.card}>
               <Text style={styles.cardTitle}>{category}</Text>
               <Text style={styles.subText}>
-              <Text style={styles.boldText}>Ingredients to Avoid: </Text>{dietPlanData["Skincare Products to Avoid During Pregnancy (Indian Market)"][category]["Ingredients to Avoid"].join(', ')}
+                <Text style={styles.boldText}>Ingredients to Avoid: </Text>
+                {dietPlanData["Skincare Products to Avoid During Pregnancy (Indian Market)"][category]["Ingredients to Avoid"].join(', ')}
               </Text>
               <Text style={styles.subText}>
-              <Text style={styles.boldText}>Examples of Products: </Text> {dietPlanData["Skincare Products to Avoid During Pregnancy (Indian Market)"][category]["Examples of Products"].join(', ')}
+                <Text style={styles.boldText}>Examples of Products: </Text>
+                {dietPlanData["Skincare Products to Avoid During Pregnancy (Indian Market)"][category]["Examples of Products"].join(', ')}
               </Text>
             </View>
           ))}
@@ -84,8 +89,7 @@ export default function DietPlanScreen({ navigation }) {
       </View>
 
       {/* Dropdown Menu */}
-      <View style={[styles.dropdownContainer,styles.shadowContainer]}>
-        {/*<Text style={styles.dropdownLabel}>Select Option:</Text>*/}
+      <View style={[styles.dropdownContainer, styles.shadowContainer]}>
         <RNPickerSelect
           onValueChange={(value) => setSelectedOption(value)}
           items={[
@@ -102,7 +106,23 @@ export default function DietPlanScreen({ navigation }) {
 
       {/* Content Based on Selection */}
       {content}
+
+      {/* Footer with navigation icons */}
+      <View style={styles.footer}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('riskNumConceived')}>
+        <Ionicons name="heart-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MaternalGuide')}>
+        <Ionicons name="book-outline" size={25} color="black" />
+        </TouchableOpacity>
+        
+        
+      </View>
     </View>
+    
   );
 }
 
@@ -115,7 +135,6 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     marginBottom: 10,
     paddingHorizontal: 10,
-    paddingVertical: 0,
   },
   shadowContainer: {
     backgroundColor: '#fff',
@@ -124,24 +143,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 3, // For Android
-  },
-    dropdownLabel: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    elevation: 3, // For Android shadow
   },
   tabs: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
-  },
-  tab: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#999',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
   },
   activeTab: {
     backgroundColor: '#FFF3CD',
@@ -151,7 +158,8 @@ const styles = StyleSheet.create({
   },
   inactiveTab: {
     paddingVertical: 10,
-    paddingHorizontal: 20,  },
+    paddingHorizontal: 20,
+  },
   activeTabText: {
     color: '#000',
     fontWeight: 'bold',
@@ -162,6 +170,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    marginBottom:50
   },
   sectionHeader: {
     fontSize: 20,
@@ -181,19 +190,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-
-    // Elevation property for Android
-    elevation: 5,
-  
-  },
-  boldText: {
-    fontWeight: 'bold', // Makes the text bold
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#474747',
-    marginBottom: 5,
+    elevation: 5, // Elevation for Android
   },
   cardText: {
     fontSize: 18,
@@ -201,25 +198,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center', // Center align the text
   },
-  subText: {
-    fontSize: 16,
-    color: '#fff',
-    marginTop: 5,
-    textAlign: 'center', // Center align the text
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 8,
+    width: width,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
     
-  },
-  reasonText: {
-    fontSize: 14,
-    color: '#fff',
-    marginTop: 5,
-    textAlign: 'center', // Center align the text
-  },
-  underlinedCardText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-    textDecorationLine: 'underline', // Underline the text
   },
 });
 
@@ -232,7 +225,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30, // To ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 16,
@@ -242,6 +235,6 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30, // To ensure the text is never behind the icon
   },
 });

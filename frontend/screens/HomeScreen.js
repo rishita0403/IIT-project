@@ -1,10 +1,12 @@
+// HomeScreen.js
 import React, { useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
+//import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Fontisto from '@expo/vector-icons/Fontisto';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/authContext';
 
 const { width, height } = Dimensions.get('window');
-// Importing local images
 import icon1 from '../assets/icon1.png';
 import icon2 from '../assets/icon2.png';
 import icon3 from '../assets/icon3.png';
@@ -21,8 +23,10 @@ const HomeScreen = ({ navigation }) => {
             style={styles.profileImage} 
           />
           <View style={styles.iconsContainer}>
-            <Ionicons name="happy-outline" size={30} color="black" />
-            <Ionicons name="notifications-outline" size={30} color="black" style={{ marginLeft: 10 }} />
+            <Fontisto name="smiley" size={28} color="black" />
+            <TouchableOpacity onPress={() => navigation.navigate('History')} style={{ marginLeft: 10 }}>
+            <Fontisto name="history" size={28} color="black" />
+          </TouchableOpacity>
           </View>
         </View>
         <Text style={styles.greeting}>Good Morning,</Text>
@@ -113,10 +117,17 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
       
       <View style={styles.footer}>
-        <Ionicons name="home-outline" size={25} color="black" />
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('riskNumConceived')}>
         <Ionicons name="heart-outline" size={25} color="black" />
-        <Ionicons name="people-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MaternalGuide')}>
         <Ionicons name="book-outline" size={25} color="black" />
+        </TouchableOpacity>
+        
+        
       </View>
     </View>
   );
@@ -211,6 +222,9 @@ const styles = StyleSheet.create({
   },
   card2Icon: {
     backgroundColor: 'rgba(255, 193, 7, 0.2)',
+    
+
+    
   },
   card3Icon: {
     backgroundColor: 'rgba(76, 175, 80, 0.2)',
@@ -230,6 +244,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
     width: width,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   bottomLeftIcon: {
     width: 90,
@@ -237,7 +256,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 10,
-    opacity:0.5
+    opacity: 0.5,
   },
 });
 

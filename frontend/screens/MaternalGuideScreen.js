@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet,Dimensions } from 'react-native';
+
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
+const { width, height } = Dimensions.get('window');
 
 export default function MaternalGuideScreen({ navigation }) {
   return (
@@ -32,6 +35,21 @@ export default function MaternalGuideScreen({ navigation }) {
         <Text style={styles.cardText}>Do’s and Don’ts</Text>
         <Image source={require('../assets/do.png')} style={styles.cardImage} />
       </TouchableOpacity>
+
+      {/* Footer with icons */}
+      <View style={styles.footer}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('riskNumConceived')}>
+        <Ionicons name="heart-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MaternalGuide')}>
+        <Ionicons name="book-outline" size={25} color="black" />
+        </TouchableOpacity>
+        
+        
+      </View>
     </View>
   );
 }
@@ -80,4 +98,19 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 8,
+    width: width,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  }
 });

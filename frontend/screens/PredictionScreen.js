@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { AuthContext } from '../context/authContext';
 import { HealthContext } from '../context/HealthContext';
 import BarIndicator from '../components/BarIndicator';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
+const { width, height } = Dimensions.get('window');
 
 export default function PredictionScreen({ navigation }) {
   const [state] = useContext(AuthContext);
@@ -93,45 +95,74 @@ export default function PredictionScreen({ navigation }) {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : risk !== null ? (
-        <>
-          <View style={styles.resultContainer}>
-            <Text style={styles.resultText}>
-              You are {risk === 0 ? 'good to go!!' : 'at high risk'}
-            </Text>
-            <Text style={styles.riskText}>{risk === 0 ? 'No Risk' : 'High Risk'}</Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#4CAF50" />
+            <Text>Loading...</Text>
           </View>
+        ) : risk !== null ? (
+          <>
+            <View style={styles.resultContainer}>
+              <Text style={styles.resultText}>
+                You are {risk === 0 ? 'good to go!!' : 'at high risk'}
+              </Text>
+              <Text style={styles.riskText}>{risk === 0 ? 'No Risk' : 'High Risk'}</Text>
+            </View>
 
-          <Text style={styles.analysisHeader}>Report Analysis</Text>
+            <Text style={styles.analysisHeader}>Report Analysis</Text>
 
-          <BarIndicator label="Systolic Blood Pressure" currentValue={healthData.SystolicBP} minAcceptable={90} maxAcceptable={120} minValue={60} maxValue={150} />
-          <BarIndicator label="Diastolic Blood Pressure" currentValue={healthData.DiastolicBP} minAcceptable={60} maxAcceptable={80} minValue={40} maxValue={100} />
-          <BarIndicator label="Glucose" currentValue={healthData.RBS} minAcceptable={70} maxAcceptable={140} minValue={40} maxValue={170} />
-          <BarIndicator label="Respiration Rate" currentValue={healthData.RR} minAcceptable={12} maxAcceptable={20} minValue={0} maxValue={32} />
-          <BarIndicator label="Body Temperature" currentValue={healthData.BodyTemp} minAcceptable={97} maxAcceptable={99} minValue={95} maxValue={104} />
-          <BarIndicator label="Pulse Rate" currentValue={healthData.HeartRate} minAcceptable={60} maxAcceptable={100} minValue={40} maxValue={120} />
-          <BarIndicator label="Hemoglobin Level" currentValue={healthData.HB} minAcceptable={12} maxAcceptable={16} minValue={5} maxValue={23} />
-          <BarIndicator label="HBA1C Level" currentValue={healthData.HBA1C} minAcceptable={4} maxAcceptable={5.6} minValue={2} maxValue={10} />
+            <BarIndicator label="Systolic Blood Pressure" currentValue={healthData.SystolicBP} minAcceptable={90} maxAcceptable={120} minValue={60} maxValue={150} />
+            <BarIndicator label="Diastolic Blood Pressure" currentValue={healthData.DiastolicBP} minAcceptable={60} maxAcceptable={80} minValue={40} maxValue={100} />
+            <BarIndicator label="Glucose" currentValue={healthData.RBS} minAcceptable={70} maxAcceptable={140} minValue={40} maxValue={170} />
+            <BarIndicator label="Respiration Rate" currentValue={healthData.RR} minAcceptable={12} maxAcceptable={20} minValue={0} maxValue={32} />
+            <BarIndicator label="Body Temperature" currentValue={healthData.BodyTemp} minAcceptable={97} maxAcceptable={99} minValue={95} maxValue={104} />
+            <BarIndicator label="Pulse Rate" currentValue={healthData.HeartRate} minAcceptable={60} maxAcceptable={100} minValue={40} maxValue={120} />
+            <BarIndicator label="Hemoglobin Level" currentValue={healthData.HB} minAcceptable={12} maxAcceptable={16} minValue={5} maxValue={23} />
+            <BarIndicator label="HBA1C Level" currentValue={healthData.HBA1C} minAcceptable={4} maxAcceptable={5.6} minValue={2} maxValue={10} />
 
-          <View style={styles.buttonContainer}>
-            <Button title="Save" color="#4CAF50" onPress={() => navigation.navigate('HomeScreen')} />
-          </View>
-        </>
-      ) : (
-        <Text style={styles.errorText}>Error fetching prediction result</Text>
-      )}
-    </ScrollView>
+            <View style={styles.buttonContainer}>
+              <Button title="Save" color="#4CAF50" onPress={() => navigation.navigate('HomeScreen')} />
+            </View>
+          </>
+        ) : (
+          <Text style={styles.errorText}>Error fetching prediction result</Text>
+        )}
+      </ScrollView>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('riskNumConceived')}>
+        <Ionicons name="heart-outline" size={25} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MaternalGuide')}>
+        <Ionicons name="book-outline" size={25} color="black" />
+        </TouchableOpacity>
+        
+        
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#FFF',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   resultContainer: {
     alignItems: 'center',
@@ -165,4 +196,20 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     alignItems: 'center',
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 0,
+    width: width,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 });
+

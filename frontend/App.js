@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import SignupScreen from './screens/SignupScreen';
 import LoginScreen from './screens/loginScreen';
 import Question1Screen from './screens/Question1Screen';
@@ -10,11 +11,11 @@ import Question4Screen from './screens/Question4Screen';
 import Question5Screen from './screens/Question5Screen';
 import HomeScreen from './screens/HomeScreen';
 import PredictionScreen from './screens/PredictionScreen';
-import RiskAbortion from './screens/RiskAbortion';
-import RiskChildDeath from './screens/RiskChildDeath';
-import RiskDeliveries from './screens/RiskDeliveries';
-import RiskLiveBirth from './screens/RiskLiveBirth';
-import RiskNumConceived from './screens/RiskNumConceived';
+import RiskAbortion from './screens/riskAbortion';
+import RiskChildDeath from './screens/riskChildDeath';
+import RiskDeliveries from './screens/riskDeliveries';
+import RiskLiveBirth from './screens/riskLiveBirth';
+import RiskNumConceived from './screens/riskNumConceived';
 import RiskBodyTemp from './screens/RiskBodyTemp';
 import RiskDiastolicBP from './screens/RiskDiastolicBP';
 import RiskHB from './screens/RiskHB';
@@ -37,37 +38,47 @@ export default function App() {
   return (
     <AuthProvider>
       <HealthProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Question1" component={Question1Screen} />
-          <Stack.Screen name="Question2" component={Question2Screen} />
-          <Stack.Screen name="Question3" component={Question3Screen} />
-          <Stack.Screen name="Question4" component={Question4Screen} />
-          <Stack.Screen name="Question5" component={Question5Screen} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="riskAbortion" component={RiskAbortion} />
-          <Stack.Screen name="riskChildDeath" component={RiskChildDeath} />
-          <Stack.Screen name="riskDeliveries" component={RiskDeliveries} />
-          <Stack.Screen name="riskLiveBirth" component={RiskLiveBirth} />
-          <Stack.Screen name="riskNumConceived" component={RiskNumConceived} />
-          <Stack.Screen name="RiskBodyTemp" component={RiskBodyTemp} />
-          <Stack.Screen name="RiskDiastolicBP" component={RiskDiastolicBP} />
-          <Stack.Screen name="RiskHB" component={RiskHB} />
-          <Stack.Screen name="RiskHBA1C" component={RiskHBA1C} />
-          <Stack.Screen name="RiskHeartRate" component={RiskHeartRate} />
-          <Stack.Screen name="RiskRBS" component={RiskRBS} />
-          <Stack.Screen name="RiskRR" component={RiskRR} />
-          <Stack.Screen name="RiskSystolicBP" component={RiskSystolicBP} />
-          <Stack.Screen name="Prediction" component={PredictionScreen} />
-          <Stack.Screen name="History" component={PredictionHistoryScreen} />
-          <Stack.Screen name="MaternalGuide" component={MaternalGuideScreen} />
-          <Stack.Screen name="DietPlan" component={DietPlanScreen} />
-          <Stack.Screen name="YogaExercise" component={YogaExerciseScreen}/>
-          <Stack.Screen name="DosDonts" component={DosDontsScreen}/> 
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{  
+              headerStyle: { 
+                backgroundColor: 'white', // Change to match your background color
+              },  
+              headerTintColor: '#333',  // Text color in the header
+              headerTitleStyle: { fontWeight: 'bold' },  // Title styling
+              headerTitleAlign: 'center', // Center the title
+            }}
+            initialRouteName="Login"
+          >
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Question1" component={Question1Screen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Question2" component={Question2Screen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Question3" component={Question3Screen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Question4" component={Question4Screen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Question5" component={Question5Screen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="riskAbortion" component={RiskAbortion} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="riskChildDeath" component={RiskChildDeath} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="riskDeliveries" component={RiskDeliveries} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="riskLiveBirth" component={RiskLiveBirth} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="riskNumConceived" component={RiskNumConceived} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskBodyTemp" component={RiskBodyTemp} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskDiastolicBP" component={RiskDiastolicBP} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskHB" component={RiskHB} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskHBA1C" component={RiskHBA1C} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskHeartRate" component={RiskHeartRate} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskRBS" component={RiskRBS} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskRR" component={RiskRR} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="RiskSystolicBP" component={RiskSystolicBP} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="Prediction" component={PredictionScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="History" component={PredictionHistoryScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="MaternalGuide" component={MaternalGuideScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="DietPlan" component={DietPlanScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="YogaExercise" component={YogaExerciseScreen} options={{ title: 'Matri Care' }} />
+            <Stack.Screen name="DosDonts" component={DosDontsScreen} options={{ title: 'Matri Care' }} /> 
+          </Stack.Navigator>
+        </NavigationContainer>
       </HealthProvider>
     </AuthProvider>
   );
