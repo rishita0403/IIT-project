@@ -1,81 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import yogaData from '../data/yogaformatted_with_images_.json'; // Adjust the path as needed
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import dosDontsData from '../data/dos_and_donts.json'; // Adjust the path as needed
+const { width, height } = Dimensions.get('window');
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
 
-const { width } = Dimensions.get('window');
 
-export default function YogaExerciseScreen({ navigation }) {
+export default function DosDontsScreen({ navigation }) { // Add navigation prop
   const [selectedTrimester, setSelectedTrimester] = useState('First Trimester (Weeks 1-12)');
-  const [selectedOption, setSelectedOption] = useState('exercises');
+  const [selectedOption, setSelectedOption] = useState('dos');
 
-  const trimesterData = yogaData[selectedTrimester] || {};
-  const exercises = trimesterData.Exercises?.["Recommended Exercises"] || [];
-  const exercisesToAvoid = trimesterData.Exercises?.["Exercises to Avoid"] || [];
-  const yogaPoses = trimesterData["Yoga Poses"]?.["Recommended Yoga Poses"] || [];
-  const posesToAvoid = trimesterData["Yoga Poses"]?.["Poses to Avoid"] || [];
-  const generalTips = yogaData["General Tips"] || [];
+  const content = selectedOption === 'dos' 
+    ? dosDontsData[selectedTrimester]["Do's"] 
+    : dosDontsData[selectedTrimester]["Don'ts"];
 
-  let content = null;
-
-  if (selectedOption === 'exercises') {
-    content = (
-      <>
-        <Text style={styles.sectionHeader}>Recommended Exercises</Text>
-        {exercises.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardText}>{item.exercise}</Text>
-            {item.image_url && <Image source={{ uri: item.image_url }} style={styles.cardImage} />}
-          </View>
-        ))}
-
-        <Text style={styles.sectionHeader}>Exercises to Avoid</Text>
-        {exercisesToAvoid.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardText}>{item.exercise}</Text>
-            {item.image_url && <Image source={{ uri: item.image_url }} style={styles.cardImage} />}
-          </View>
-        ))}
-      </>
-    );
-  } else if (selectedOption === 'yoga') {
-    content = (
-      <>
-        <Text style={styles.sectionHeader}>Recommended Yoga Poses</Text>
-        {yogaPoses.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardText}>{item.pose}</Text>
-            {item.image_url && <Image source={{ uri: item.image_url }} style={styles.cardImage} />}
-          </View>
-        ))}
-
-        <Text style={styles.sectionHeader}>Yoga Poses to Avoid</Text>
-        {posesToAvoid.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardText}>{item.pose}</Text>
-            {item.image_url && <Image source={{ uri: item.image_url }} style={styles.cardImage} />}
-          </View>
-        ))}
-      </>
-    );
-  } else if (selectedOption === 'general_tips') {
-    content = (
-      <>
-        <Text style={styles.sectionHeader}>General Tips</Text>
-        {generalTips.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardText}>{item.tip}</Text>
-            {item.image_url && <Image source={{ uri: item.image_url }} style={styles.cardImage} />}
-          </View>
-        ))}
-      </>
-    );
-  }
+  const renderContent = (content) => {
+    return Object.keys(content).map((key, index) => (
+      <View key={index} style={styles.card}>
+        <Text style={styles.cardTitle}>{key}</Text>
+        <Text style={styles.cardText}>{content[key]}</Text>
+      </View>
+    ));
+  };
 
   return (
     <View style={styles.container}>
-      {/* Trimester Tabs */}
       <View style={styles.tabs}>
         <TouchableOpacity 
           onPress={() => setSelectedTrimester('First Trimester (Weeks 1-12)')} 
@@ -103,14 +52,12 @@ export default function YogaExerciseScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Dropdown Menu */}
       <View style={[styles.dropdownContainer, styles.shadowContainer]}>
         <RNPickerSelect
           onValueChange={(value) => setSelectedOption(value)}
           items={[
-            { label: 'Exercises', value: 'exercises' },
-            { label: 'Yoga Poses', value: 'yoga' },
-            { label: 'General Tips', value: 'general_tips' },
+            { label: "Do's", value: 'dos' },
+            { label: "Don'ts", value: 'donts' },
           ]}
           value={selectedOption}
           style={pickerSelectStyles}
@@ -118,12 +65,11 @@ export default function YogaExerciseScreen({ navigation }) {
         />
       </View>
 
-      {/* Content Based on Selection */}
       <ScrollView style={styles.cardContainer}>
-        {content}
+        {renderContent(content)}
       </ScrollView>
 
-      {/* Footer with navigation icons */}
+      {/* Footer with icons */}
       <View style={styles.footer}>
       <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <Ionicons name="home-outline" size={25} color="black" />
@@ -184,37 +130,38 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3, // For Android
   },
+  dropdownLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   cardContainer: {
     flex: 1,
     marginBottom:50
   },
-  sectionHeader: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    marginTop: 20,
-    textAlign: 'center',
-  },
   card: {
-    backgroundColor: '#FDDCAB',
+    backgroundColor: '#C4ECF6', // Light blue color for the card
     borderRadius: 10,
     padding: 15,
     marginBottom: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Elevation for Android
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 5,
   },
   cardText: {
     fontSize: 16,
     color: '#000',
-    textAlign: 'justify', // Justify the text
-    flex: 1,
-  },
-  cardImage: {
-    width: 120,
-    height: 120,
-    marginLeft: 10,
-    borderRadius: 10,
+    textAlign: 'center',
   },
   footer: {
     flexDirection: 'row',
