@@ -9,9 +9,10 @@ const { width, height } = Dimensions.get('window');
 
 export default function PredictionScreen({ navigation }) {
   const [state] = useContext(AuthContext);
-  const [healthData] = useContext(HealthContext);
+  const [healthData,setHealthData] = useContext(HealthContext);
   const [risk, setRisk] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
@@ -30,7 +31,7 @@ export default function PredictionScreen({ navigation }) {
       try {
         const age = calculateAge(state.user.dob);
         console.log('Token:', state.token);
-
+        //https://avipsa.pythonanywhere.com/predict
         const response = await axios.post('https://avipsa.pythonanywhere.com/predict', {
           RBS: healthData.RBS,
           abortion: healthData.abortion,
@@ -53,6 +54,8 @@ export default function PredictionScreen({ navigation }) {
         });
 
         setRisk(response.data.risk);
+
+        console.log('Risk Prediction:', response.data.risk);
 
         await axios.post('/risk/store-risk-check', {
           userId: state.user._id,
@@ -94,6 +97,20 @@ export default function PredictionScreen({ navigation }) {
     getPrediction();
   }, []);
 
+  const handleSave = () => {
+    setHealthData({
+      RBS: null,
+      HB: null,
+      HBA1C: null,
+      RR: null,
+      SystolicBP: null,
+      DiastolicBP: null,
+      HeartRate: null,
+      BodyTemp: null,
+    });
+    navigation.navigate('HomeScreen'); // Navigate to the previous screen
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -108,14 +125,16 @@ export default function PredictionScreen({ navigation }) {
               <Text style={styles.resultText}>
                 You are {risk === 0 ? 'good to go!!' : 'at high risk'}
               </Text>
-              <Text style={styles.riskText}>{risk === 0 ? 'No Risk' : 'High Risk'}</Text>
+              <Text style={[styles.riskText, { color: risk === 0 ? '#4CAF50' : 'red' }]}>
+                {risk === 0 ? 'No Risk' : 'High Risk'}
+              </Text>
             </View>
 
             <Text style={styles.analysisHeader}>Report Analysis</Text>
 
             <BarIndicator label="Systolic Blood Pressure" currentValue={healthData.SystolicBP} minAcceptable={90} maxAcceptable={120} minValue={60} maxValue={150} />
             <BarIndicator label="Diastolic Blood Pressure" currentValue={healthData.DiastolicBP} minAcceptable={60} maxAcceptable={80} minValue={40} maxValue={100} />
-            <BarIndicator label="Glucose" currentValue={healthData.RBS} minAcceptable={70} maxAcceptable={140} minValue={40} maxValue={170} />
+            <BarIndicator label="Glucose" currentValue={healthData.RBS} minAcceptable={70} maxAcceptable={140} minValue={40} maxValue={200} />
             <BarIndicator label="Respiration Rate" currentValue={healthData.RR} minAcceptable={12} maxAcceptable={20} minValue={0} maxValue={32} />
             <BarIndicator label="Body Temperature" currentValue={healthData.BodyTemp} minAcceptable={97} maxAcceptable={99} minValue={95} maxValue={104} />
             <BarIndicator label="Pulse Rate" currentValue={healthData.HeartRate} minAcceptable={60} maxAcceptable={100} minValue={40} maxValue={120} />
@@ -123,7 +142,7 @@ export default function PredictionScreen({ navigation }) {
             <BarIndicator label="HBA1C Level" currentValue={healthData.HBA1C} minAcceptable={4} maxAcceptable={5.6} minValue={2} maxValue={10} />
 
             <View style={styles.buttonContainer}>
-              <Button title="Save" color="#4CAF50" onPress={() => navigation.navigate('HomeScreen')} />
+              <Button title="Save" color="#4CAF50" onPress={handleSave} />
             </View>
           </>
         ) : (

@@ -34,3 +34,26 @@ exports.login = async (req, res) => {
     res.status(400).send('Error logging in');
   }
 };
+
+exports.updateUserDetails = async (req, res) => {
+  const { userId } = req.params;
+  const { name, phone, dob } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, phone, dob },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+
+    res.send(updatedUser);
+  } catch (error) {
+    console.error('Error updating user details:', error);
+    res.status(500).send('Error updating user details');
+  }
+};
+

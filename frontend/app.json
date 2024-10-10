@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Maternal_Risk_Predictor",
+    "name": "MatriCare",
     "slug": "Maternal_Risk_Predictor",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.avipsapradhan.Maternal_Risk_Predictor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "098b10d0-816c-4e26-a139-dd0530afefee"
+      }
     }
   }
 }

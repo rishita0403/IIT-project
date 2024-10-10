@@ -6,18 +6,30 @@ const BarIndicator = ({ label, currentValue, minAcceptable, maxAcceptable, minVa
   const minAcceptablePosition = ((minAcceptable - minValue) / (maxValue - minValue)) * 100;
   const maxAcceptablePosition = ((maxAcceptable - minValue) / (maxValue - minValue)) * 100;
 
+  // Determine status based on currentValue
+  let status = 'Normal';
+  let statusColor = styles.currentValueNormal;
+
+  if (currentValue < minAcceptable) {
+    status = 'Low';
+    statusColor = styles.currentValueLow;
+  } else if (currentValue > maxAcceptable) {
+    status = 'High';
+    statusColor = styles.currentValueHigh;
+  }
+
   return (
     <View style={styles.barContainer}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.valueLabelsAboveBar}>
-        <Text style={[styles.valueLabel, { left: `${minAcceptablePosition}%` }]}>{minAcceptable}</Text>
-        <Text style={[styles.valueLabel, { right: `${100 - maxAcceptablePosition}%` }]}>{maxAcceptable}</Text>
-      </View>
+      <Text style={styles.range}>Normal Range: {minAcceptable} - {maxAcceptable}</Text>
+      <Text style={[styles.statusText, statusColor]}>{status}</Text>
       <View style={styles.barBackground}>
-        <View style={[styles.acceptableRange, { left: `${minAcceptablePosition}%`, right: `${100 - maxAcceptablePosition}%` }]} />
+        <View style={[styles.acceptableRange, { left: `${minAcceptablePosition}%`, width: `${maxAcceptablePosition - minAcceptablePosition + 4}%` }]} />
         <View style={[styles.currentValueIndicator, { left: `${position}%` }]}>
-          <Text style={styles.currentValueText}>{currentValue}</Text>
-          <View style={styles.verticalLine} />
+          {/* Apply status-based color to currentValueText */}
+          <Text style={[styles.currentValueText, statusColor]}>{currentValue}</Text>
+          {/* Black vertical line */}
+          <View style={styles.blackVerticalLine} />
         </View>
       </View>
     </View>
@@ -29,19 +41,27 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   label: {
-    marginBottom: 5,
+    marginBottom: 8,
     fontWeight: 'bold',
   },
-  valueLabelsAboveBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    position: 'relative',
-    marginBottom: 14,
+  range: {
+    marginBottom: 4,
+    fontWeight: 'normal',
   },
-  valueLabel: {
-    fontSize: 12,
-    color: '#666',
-    position: 'absolute',
+  statusText: {
+    marginBottom: 16,
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  // Color for the current value label based on status
+  currentValueNormal: {
+    color: 'green',
+  },
+  currentValueLow: {
+    color: 'red',
+  },
+  currentValueHigh: {
+    color: 'red',
   },
   barBackground: {
     height: 10,
@@ -62,15 +82,15 @@ const styles = StyleSheet.create({
   },
   currentValueText: {
     fontSize: 12,
-    color: '#1E88E5',
     fontWeight: 'bold',
     marginTop: -20,
   },
-  verticalLine: {
+  // Black vertical line for current value
+  blackVerticalLine: {
     width: 2,
     height: 20,
-    backgroundColor: '#1E88E5',
-    marginTop:-2,
+    backgroundColor: 'black', // Black line for current value
+    marginTop: -2,
   },
 });
 
