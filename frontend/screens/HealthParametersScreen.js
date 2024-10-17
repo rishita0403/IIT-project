@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { AuthContext } from '../context/authContext';
 
@@ -33,6 +33,7 @@ export default function HealthParametersScreen({ navigation }) {
       } catch (error) {
         console.error('Error fetching health details:', error);
         Alert.alert('Error', 'Could not fetch health details');
+        setLoading(false);
       }
     };
 
@@ -59,7 +60,12 @@ export default function HealthParametersScreen({ navigation }) {
   };
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
   }
 
   return (
@@ -127,16 +133,16 @@ export default function HealthParametersScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fefefe', // Light background color for the whole page
+    backgroundColor: '#fefefe',
   },
   topContainer: {
-    height: 190, // Adjusted height for the top container
-    backgroundColor: '#fcd8df',  // Pastel pink color
-    borderBottomLeftRadius: 40,  // Curved bottom edges
-    borderBottomRightRadius: 40,  // Curved bottom edges
-    justifyContent: 'center',  // Center the text vertically
-    alignItems: 'center',  // Center the text horizontally
-    paddingHorizontal: 20,  // Padding for the text
+    height: 190,
+    backgroundColor: '#fcd8df',
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
   headerText: {
     fontSize: 24,
@@ -148,7 +154,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 20,
-    paddingTop:40
+    paddingTop: 40,
   },
   labelText: {
     marginBottom: 8,
@@ -161,31 +167,42 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     paddingLeft: 10,
-    borderRadius: 20,  // Rounded edges for the input
-    backgroundColor: '#fff',  // White background for input
-    shadowColor: '#000',  // Shadow for input box
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 2,  // Android shadow effect
+    elevation: 2,
   },
   buttonContainer: {
     alignItems: 'center',
     marginTop: 20,
   },
   updateButton: {
-    backgroundColor: '#a0d468',  
-    borderRadius: 20,  // Rounded edges for the button
+    backgroundColor: '#a0d468',
+    borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    shadowColor: '#000',  // Shadow for button
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 2,  // Android shadow effect
+    elevation: 2,
   },
   buttonText: {
-    color: '#000',  // Black text color for the button
+    color: '#000',
     fontWeight: 'bold',
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fefefe',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#555',
   },
 });

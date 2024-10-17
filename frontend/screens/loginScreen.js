@@ -80,7 +80,6 @@ export default function LoginScreen({ navigation }) {
       const { token, user } = response.data;
       setState({ user, token });
       await AsyncStorage.setItem('@auth', JSON.stringify(response.data));
-      alert('Login successful');
       if (user.questionsAnswered) {
         navigation.navigate('HomeScreen');
       } else {

@@ -29,23 +29,31 @@ export default function SignupScreen({ navigation }) {
 
   const handleSignup = async () => {
     if (!name || !phone || !password || !dobText) {
-      alert('All fields are required');
+      Alert.alert('All fields are required', 'Please fill all the required fields to signup.');
       return;
     }
-
+  
     const age = calculateAge(dob);
     if (age < 18) {
       alert('You must be at least 18 years old to sign up.');
       return;
     }
-
+    if (age > 45) {
+      alert('You must be below 45 years old to sign up.');
+      return;
+    }
+  
     try {
       await axios.post('/auth/signup', { name, phone, password, dob });
-      alert('User registered successfully');
+      Alert.alert('Congratulations!', 'You are registered successfully');
       navigation.navigate('Login');
     } catch (error) {
-      console.error('Response data:', error.response.data);  // Log full response from the server
-      alert(`Error: ${error.response.data || 'Error registering user'}`);
+      if (error.response && error.response.data && error.response.data.error === 'User with this phone number already exists') {
+        Alert.alert('Phone Number Already Registered', 'User with this phone number already exists');
+      } else {
+        Alert.alert('Error', 'Error registering user');
+      }
+      console.error('Response data:', error.response.data);
     }
   };
 

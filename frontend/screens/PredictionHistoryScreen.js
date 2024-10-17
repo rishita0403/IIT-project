@@ -120,6 +120,15 @@ export default function PredictionHistoryScreen() {
   
   const chartWidth = Dimensions.get('window').width * 1.2;
 
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.wrapper}>
       {/* Buttons for navigation */}
@@ -148,10 +157,7 @@ export default function PredictionHistoryScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
-        ) : (
-          predictions.length === 0 ? (
+      {predictions.length === 0 ? (
             <Text style={styles.noPredictionsText}>No predictions found</Text>
           ) : (
             <>
@@ -164,8 +170,7 @@ export default function PredictionHistoryScreen() {
               {renderCard("Hemoglobin (HB)", formatLabelsForChart, () => formatDataForChart('HB'), [12, 16], chartWidth)}
               {renderCard("HBA1C Level", formatLabelsForChart, () => formatDataForChart('HBA1C'), [4, 5.6], chartWidth)}
             </>
-          )
-        )}
+          )}
       </ScrollView>
 
       {/* Footer with icons */}
@@ -294,6 +299,17 @@ const styles = StyleSheet.create({
   },
   activeButtonText: {
     color: 'white', // Active text color
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fefefe',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#555',
   },
 });
 

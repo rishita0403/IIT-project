@@ -3,6 +3,7 @@ import React, { useContext,useState,useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Menu, Provider } from 'react-native-paper';
 import Fontisto from '@expo/vector-icons/Fontisto';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/authContext';
 import axios from "axios";
@@ -53,7 +54,10 @@ const HomeScreen = ({ navigation }) => {
               style={styles.profileImage} 
             />
             <View style={styles.iconsContainer}>
-              <Fontisto name="smiley" size={28} color="black" />
+              <TouchableOpacity onPress={() => navigation.navigate('chatbot')} style={{ marginLeft: 10 }}>
+              {/* <Fontisto name="smiley" size={30} color="#000" />  */}
+              <FontAwesome5 name="robot" size={28} color="black" />
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('History')} style={{ marginLeft: 10 }}>
                 <Fontisto name="history" size={28} color="black" />
               </TouchableOpacity>

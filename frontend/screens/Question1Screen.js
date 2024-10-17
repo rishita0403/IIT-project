@@ -76,8 +76,6 @@ export default function Question1Screen({ navigation }) {
           Authorization: `Bearer ${state.token}`
         }
       });
-
-      alert('All questions answered and data submitted!');
       navigation.navigate('HomeScreen'); // Navigate to the HomeScreen after submission
     } catch (error) {
       console.error('Error submitting data:', error.response ? error.response.data : error.message);
